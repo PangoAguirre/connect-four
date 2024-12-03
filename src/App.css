@@ -40,3 +40,32 @@
 .read-the-docs {
   color: #888;
 }
+
+.game {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
+  grid-template-rows: repeat(6,1fr);
+  align-items: center;
+  align-content: center;
+  background-color: black;
+  border: 5px solid azure;
+  border-radius: 5%;
+}
+
+.square {
+  width: 90px;
+  height: 90px;
+  background-color: rgba(97, 141, 141, 0.836);
+  color: azure;
+  border: 1px solid black;
+  border-radius: 50%;
+  cursor: pointer;
+}
