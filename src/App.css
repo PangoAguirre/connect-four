@@ -1,69 +1,45 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+h1 {
+  color: #F1E4E8;
 }
 
 .game {
   display: flex;
+  flex-direction: column;
   align-items: center;
   align-content: center;
   justify-content: center;
   justify-items: center;
+  background: #242423;
+  width: 100vw;
+  height: 100vh;
 }
 
-.board {
+.boardRed {
   display: grid;
   grid-template-columns: repeat(7,1fr);
   grid-template-rows: repeat(6,1fr);
   align-items: center;
   align-content: center;
   background-color: black;
-  border: 5px solid azure;
+  border: 5px solid #E71D36;
+  border-radius: 5%;
+}
+
+.boardBlue {
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
+  grid-template-rows: repeat(6,1fr);
+  align-items: center;
+  align-content: center;
+  background-color: black;
+  border: 5px solid #6DC0D5;
   border-radius: 5%;
 }
 
 .square {
   width: 90px;
   height: 90px;
-  background-color: rgba(97, 141, 141, 0.836);
+  background-color: #333533;
   color: azure;
   border: 1px solid black;
   border-radius: 50%;
