@@ -57,7 +57,7 @@ export function Board() {
     
 
     return (
-        <main className="board">
+        <main className={turn === TURNS.x ? 'boardRed' : 'boardBlue'}>
             {board.map((square, index) => {
                 return (
                     <Square key={index} updateBoard={updateBoard} index={index}>
