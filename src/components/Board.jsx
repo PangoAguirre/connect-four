@@ -1,46 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Square } from "./Square";
 import { TURNS } from '../constants';
 
 export function Board() {
-    const [board, setBoard] = useState(Array(42).fill(null));
-    const [turn, setTurn] = useState(TURNS.x);
+    const [board, setBoard] = useState(Array(42).fill(null))
+    const [turn, setTurn] = useState(TURNS.x)
     const [winner, setWinner] = useState(null)
 
     const updateBoard = (index) => {
         if (winner) return
-        const [newBoard, newIndex] = move(index, [...board], turn);
-        const newTurn = turn === TURNS.x ? TURNS.y : TURNS.x
-        const newWinner = checkWinner(newIndex, newBoard, turn)
+
+        const [newBoard, newMoveIndex] = move(index, [...board], turn);
+        if (newMoveIndex === null) return
+
         setBoard(newBoard);
-        setTurn(newTurn)
-        setWinner(newWinner)
+        setTurn(turn === TURNS.x ? TURNS.y : TURNS.x)
     };
 
-    const move = (index, board, turn) => {
+    const move = (index, currentBoard, currentTurn) => {
 
         const colSelected = index % 7;
-        if (board[colSelected]) return board
+        if (currentBoard[colSelected]) return [currentBoard, null]
 
+        const newBoard = [...currentBoard]
         for (let i = colSelected + 35; i >= colSelected; i -= 7) {
-            if (!board[i]) {
-                board[i] = turn;
-                return [board, i];
+            if (!newBoard[i]) {
+                newBoard[i] = currentTurn;
+                return [newBoard, i];
             }
         }
-        return board;
+        return [currentBoard, null];
     };
 
     const checkWinner = (index, board, turn) => {
-        if (!board[index]) return null;
-
-        const directions = [
-            1, -1,
-            7, -7,
-            8, -8,
-            6, -6
-        ];
-    
+        const directions = [1, -1, 7, -7, 8, -8, 6, -6];
         for (let dir of directions) {
             if (
                 board[index + dir] === turn &&
@@ -50,15 +43,27 @@ export function Board() {
                 return turn;
             }
         }
-    
         return null;
     };
+
+    useEffect(() => {
+        const lastTurn = turn === TURNS.x ? TURNS.y : TURNS.x
+        const lastMoveIndex = board.lastIndexOf(lastTurn)
+        if (lastMoveIndex !== -1) {
+            const winner = checkWinner(lastMoveIndex, board, lastTurn)
+            setWinner(winner)
+        }
+    }, [board, turn])
     
 
     return (
         <main className="board">
             {board.map((square, index) => {
-                return <Square key={index} updateBoard={updateBoard} index={index}>{square}</Square>;
+                return (
+                    <Square key={index} updateBoard={updateBoard} index={index}>
+                        {square}
+                    </Square>
+                )
             })}
         </main>
     );
