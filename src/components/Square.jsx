@@ -1,4 +1,4 @@
-import { TURNS } from "../constants";
+import { TURNS } from "../constants/constants";
 
 export function Square({ children, updateBoard, index }) {
     const handleClick = () => {
