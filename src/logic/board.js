@@ -1,3 +1,5 @@
+import { TURNS } from "../constants";
+
 export const move = (index, currentBoard, currentTurn) => {
     const colSelected = index % 7;
     if (currentBoard[colSelected]) return [currentBoard, null]
@@ -15,8 +17,6 @@ export const move = (index, currentBoard, currentTurn) => {
 export const checkWinner = (index, board, turn) => {
     const directions = [1, -1, 7, -7, 8, -8, 6, -6];
 
-    console.log("Antes")
-
     for (let dir of directions) {
         if (
             board[index + dir] === turn &&
@@ -25,10 +25,9 @@ export const checkWinner = (index, board, turn) => {
         ) {
             return turn;
         }
-        console.log("No")
     }
-
-    console.log("Después")
 
     return null;
 };
+
+export const getNextTurn = (prevTurn) => {return prevTurn === TURNS.x ? TURNS.y : TURNS.x}

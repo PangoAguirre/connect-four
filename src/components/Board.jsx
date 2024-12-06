@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Square } from "./Square";
 import { TURNS } from '../constants';
-import { move, checkWinner } from "../logic/board";
+import { move, checkWinner, getNextTurn } from "../logic/board";
 
 export function Board() {
     const [board, setBoard] = useState(Array(42).fill(null))
@@ -22,47 +22,40 @@ export function Board() {
         setLastMoveIndex(lastMoveIndex)
         setBoard(newBoard);
 
-        setTurn(turn === TURNS.x ? TURNS.y : TURNS.x)
+        setTurn(getNextTurn(turn))
     };
 
     useEffect(() => {
         if (!lastMoveIndex) return
-        const winner = checkWinner(lastMoveIndex, board, turn === TURNS.x ? TURNS.y : TURNS.x)
-        setWinner(winner)
-        if (winner === TURNS.x) {
-            setLoser(TURNS.y)
-        } else if (winner === TURNS.y) {
-            setLoser(TURNS.x)
+        const winner = checkWinner(lastMoveIndex, board, getNextTurn(turn))
+        if (winner) {
+            setWinner(winner)
+            if (winner === TURNS.x) {
+                setLoser(TURNS.y)
+                setRedWins((prevRedWins) => prevRedWins + 1)
+            }
+            if (winner === TURNS.y) {
+                setLoser(TURNS.x)
+                setBlueWins((prevBlueWins) => prevBlueWins + 1);
+            }
+            
         }
     }, [board, lastMoveIndex, turn])
 
-    const resetGame = () => {
-        console.log(loser + "antes" + turn)
-        if (loser === TURNS.x) {
-            setTurn(TURNS.x)
-        } else if (loser === TURNS.y) {
-            setTurn(TURNS.y)
-        }
-        setWinner(null)
+    const resetGame = (keepTurn = true) => {
         setBoard(Array(42).fill(null))
+        setWinner(null)
+        if (!keepTurn) {
+            setTurn(TURNS.x)
+        } else {
+            setTurn(loser)
+        }
     }
 
-    useEffect(() => {
-        if (winner === TURNS.x) {
-            setRedWins((prevRedWins) => prevRedWins + 1);
-        }
-        if (winner === TURNS.y) {
-            setBlueWins((prevBlueWins) => prevBlueWins + 1);
-        }
-    }, [winner]);    
-
     const resetSerie = () => {
+        resetGame(false)
         setBlueWins(0)
         setRedWins(0)
-        
-        setTurn(TURNS.x)
-        setWinner(null)
-        setBoard(Array(42).fill(null))
     }
     
 
@@ -88,7 +81,7 @@ export function Board() {
                         <span className="red-score">{redWins}</span>
                     </div>
                     <div className="score">
-                        <h2 className="blue-score">Azul</h2>
+                        <h2 className="blue-score">Azúl</h2>
                         <span className="blue-score">{blueWins}</span>
                     </div>
                 </section>
