@@ -1,0 +1,22 @@
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.info button {
+  appearance: none;
+  background-color: #444;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.info button:hover {
+  background-color: #565656;
+}
