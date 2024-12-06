@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Square } from "./Square";
 import { TURNS } from '../constants';
+import { move, checkWinner } from "../logic/board";
 
 export function Board() {
     const [board, setBoard] = useState(Array(42).fill(null))
@@ -17,34 +18,6 @@ export function Board() {
         setBoard(newBoard);
 
         setTurn(turn === TURNS.x ? TURNS.y : TURNS.x)
-    };
-
-    const move = (index, currentBoard, currentTurn) => {
-        const colSelected = index % 7;
-        if (currentBoard[colSelected]) return currentBoard
-
-        const newBoard = [...currentBoard]
-        for (let i = colSelected + 35; i >= colSelected; i -= 7) {
-            if (!newBoard[i]) {
-                newBoard[i] = currentTurn;
-                return newBoard;
-            }
-        }
-        return currentBoard;
-    };
-
-    const checkWinner = (index, board, turn) => {
-        const directions = [1, -1, 7, -7, 8, -8, 6, -6];
-        for (let dir of directions) {
-            if (
-                board[index + dir] === turn &&
-                board[index + dir * 2] === turn &&
-                board[index + dir * 3] === turn
-            ) {
-                return turn;
-            }
-        }
-        return null;
     };
 
     useEffect(() => {
@@ -68,7 +41,6 @@ export function Board() {
         } else if (loser === TURNS.y) {
             setTurn(TURNS.y)
         }
-        console.log(loser + "después" + turn)
         setWinner(null)
         setBoard(Array(42).fill(null))
     }
@@ -94,10 +66,12 @@ export function Board() {
 
     return (
         <div className="game">
-            {winner && <section className={winner === TURNS.x ? 'winner-modal-red' : 'winner-modal-blue'}>
-                <h1>Ganador</h1>
-                <span>{winner === TURNS.x ? 'ROJO' : 'AZÚL'}</span>
-            </section>}
+            {winner && 
+                <section className={winner === TURNS.x ? 'winner-modal-red' : 'winner-modal-blue'}>
+                    <h1>Ganador</h1>
+                    <span>{winner === TURNS.x ? 'ROJO' : 'AZÚL'}</span>
+                </section>
+            }
             <main className={turn === TURNS.x ? 'boardRed' : 'boardBlue'}>
                 {board.map((square, index) => (
                     <Square key={index} updateBoard={updateBoard} index={index}>
