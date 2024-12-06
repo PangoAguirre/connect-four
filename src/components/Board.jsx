@@ -6,6 +6,7 @@ import { move, checkWinner } from "../logic/board";
 export function Board() {
     const [board, setBoard] = useState(Array(42).fill(null))
     const [turn, setTurn] = useState(TURNS.x)
+    const [lastMoveIndex, setLastMoveIndex] = useState(null)
     const [winner, setWinner] = useState(null)
     const [redWins, setRedWins] = useState(0)
     const [blueWins, setBlueWins] = useState(0)
@@ -14,25 +15,26 @@ export function Board() {
     const updateBoard = (index) => {
         if (winner) return
 
-        const newBoard = move(index, [...board], turn);
+        const [newBoard, lastMoveIndex] = move(index, [...board], turn);
+
+        if (!lastMoveIndex) return
+
+        setLastMoveIndex(lastMoveIndex)
         setBoard(newBoard);
 
         setTurn(turn === TURNS.x ? TURNS.y : TURNS.x)
     };
 
     useEffect(() => {
-        const lastTurn = turn === TURNS.x ? TURNS.y : TURNS.x
-        const lastMoveIndex = board.lastIndexOf(lastTurn)
-        if (lastMoveIndex !== -1) {
-            const winner = checkWinner(lastMoveIndex, board, lastTurn)
-            setWinner(winner)
-            if (winner === TURNS.x) {
-                setLoser(TURNS.y)
-            } else if (winner === TURNS.y) {
-                setLoser(TURNS.x)
-            }
+        if (!lastMoveIndex) return
+        const winner = checkWinner(lastMoveIndex, board, turn === TURNS.x ? TURNS.y : TURNS.x)
+        setWinner(winner)
+        if (winner === TURNS.x) {
+            setLoser(TURNS.y)
+        } else if (winner === TURNS.y) {
+            setLoser(TURNS.x)
         }
-    }, [board, turn])
+    }, [board, lastMoveIndex, turn])
 
     const resetGame = () => {
         console.log(loser + "antes" + turn)
