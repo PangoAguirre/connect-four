@@ -1,11 +1,11 @@
 import './App.css'
+import './styles/button.css'
 
 import { Board } from './components/Board'
 
 function App() {
 
-  return <div className='game'>
-    <h1>Conecta 4</h1>
+  return <div className='main'>
     <Board></Board>
   </div>
 }
