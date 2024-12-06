@@ -1,4 +1,4 @@
-import { TURNS } from "../constants";
+import { TURNS } from "../constants/constants";
 
 export const move = (index, currentBoard, currentTurn) => {
     const colSelected = index % 7;

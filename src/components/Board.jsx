@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Square } from "./Square";
-import { TURNS } from '../constants';
+import { TURNS } from "../constants/constants";
 import { move, checkWinner, getNextTurn } from "../logic/board";
 
 export function Board() {
