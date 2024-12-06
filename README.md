@@ -17,26 +17,11 @@ The goal of this project is to develop a Connect Four game in React.js that allo
 - Automatically detect when a player connects four pieces in any direction (horizontal, vertical, or diagonal).
 - Once a winner is detected, disable interaction with the board until the game is reset.
 
-### 4. **Game Reset:**
+### 4. **win counter:**
+- It will count how many victories each player has and will show it on an interface.
+
+### 5. **Game Reset:**
 - Include a button to reset the game, clearing the board and restarting the state.
 
-## Technical Requirements
-
-### 1. **Dynamic States:**
-- Use the `useState` hook to manage the state of the board, current turn, and win status.
-
-### 2. **Side Effects:**
-- Use the `useEffect` hook to:
-  - Check for a winner after each turn.
-  - Implement any logic that depends on changes in the state.
-
-### 3. **Styling:**
-- Ensure the board design is visually clear, with distinct indicators for each player's pieces and empty spaces.
-
-### 4. **Modularity:**
-- Break down the logic and components into reusable modules, such as the board, cells, and game controls.
-
-## Expected Deliverables
-- A GitHub repository with the source code and a `README.md` file explaining:
-  - How to install and run the project.
-  - A brief description of how the `useState` and `useEffect` hooks were implemented in the solution.
+### 5. **Serie Reset:**
+- Includes a button to reset the series, clear the board, clear the counter and reset the states.
